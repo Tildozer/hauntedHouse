@@ -1,13 +1,11 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import * as dat from "lil-gui";
+import { makeGUI } from "./debugging";
+import { makeHouse } from "./house";
 
 /**
  * Base
  */
-// Debug
-const gui = new dat.GUI();
-
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
@@ -22,14 +20,9 @@ const textureLoader = new THREE.TextureLoader();
 /**
  * House
  */
-// Temporary sphere
-const sphere = new THREE.Mesh(
-  new THREE.SphereGeometry(1, 32, 32),
-  new THREE.MeshStandardMaterial({ roughness: 0.7 })
-);
-sphere.position.y = 1;
-scene.add(sphere);
+const house = makeHouse();
 
+scene.add(house);
 // Floor
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(20, 20),
@@ -44,16 +37,13 @@ scene.add(floor);
  */
 // Ambient light
 const ambientLight = new THREE.AmbientLight("#ffffff", 0.5);
-gui.add(ambientLight, "intensity").min(0).max(1).step(0.001);
+
 scene.add(ambientLight);
 
 // Directional light
 const moonLight = new THREE.DirectionalLight("#ffffff", 0.5);
 moonLight.position.set(4, 5, -2);
-gui.add(moonLight, "intensity").min(0).max(1).step(0.001);
-gui.add(moonLight.position, "x").min(-5).max(5).step(0.001);
-gui.add(moonLight.position, "y").min(-5).max(5).step(0.001);
-gui.add(moonLight.position, "z").min(-5).max(5).step(0.001);
+
 scene.add(moonLight);
 
 /**
@@ -97,12 +87,16 @@ scene.add(camera);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 
+// Debugging
+makeGUI({ ambientLight, moonLight });
+
 /**
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
+renderer.outputColorSpace;
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
