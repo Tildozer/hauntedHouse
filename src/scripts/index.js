@@ -2,15 +2,16 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { makeGUI } from "./debugging";
 import { makeHouse } from "./house";
+import { makeGraves } from "./graves";
 
 /**
  * Base
  */
-// Canvas
 const canvas = document.querySelector("canvas.webgl");
 
-// Scene
 const scene = new THREE.Scene();
+const fog = new THREE.Fog(0x262837, 1, 15);
+scene.fog = fog;
 
 /**
  * Textures
@@ -23,6 +24,11 @@ const textureLoader = new THREE.TextureLoader();
 const house = makeHouse();
 
 scene.add(house);
+// Graves
+const graves = makeGraves();
+
+scene.add(graves);
+
 // Floor
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(20, 20),
@@ -30,21 +36,28 @@ const floor = new THREE.Mesh(
 );
 floor.rotation.x = -Math.PI * 0.5;
 floor.position.y = 0;
+
+//
+
 scene.add(floor);
 
 /**
  * Lights
  */
 // Ambient light
-const ambientLight = new THREE.AmbientLight("#ffffff", 0.5);
+const ambientLight = new THREE.AmbientLight("#b9d5ff", 0.12);
 
 scene.add(ambientLight);
 
 // Directional light
-const moonLight = new THREE.DirectionalLight("#ffffff", 0.5);
+const moonLight = new THREE.DirectionalLight("#b9d5ff", 0.12);
 moonLight.position.set(4, 5, -2);
 
 scene.add(moonLight);
+
+const doorLight = new THREE.PointLight(0xff7d46, 1, 7);
+doorLight.position.set(0, 2.2, 2.7);
+house.add(doorLight);
 
 /**
  * Sizes
@@ -98,6 +111,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.outputColorSpace;
 renderer.setSize(sizes.width, sizes.height);
+renderer.setClearColor(0x262837);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 /**
