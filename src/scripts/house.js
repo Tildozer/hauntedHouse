@@ -70,7 +70,7 @@ export const makeHouse = ({
 
   house.add(walls, roof, door, bush1, bush2, bush3, bush4);
 
-  return house;
+  return {house, walls, door, bush1, bush2, bush3, bush4};
 };
 
 function makeDoor(
