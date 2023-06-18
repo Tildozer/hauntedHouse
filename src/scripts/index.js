@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { makeGUI } from "./debugging";
 import { makeHouse } from "./house";
 import { makeGraves } from "./graves";
+import { loadTextures } from "./textures";
 
 /**
  * Base
@@ -16,12 +17,13 @@ scene.fog = fog;
 /**
  * Textures
  */
-const textureLoader = new THREE.TextureLoader();
+
+const textures = loadTextures();
 
 /**
  * House
  */
-const house = makeHouse();
+const house = makeHouse(textures);
 
 scene.add(house);
 // Graves

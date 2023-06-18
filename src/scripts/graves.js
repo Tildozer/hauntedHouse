@@ -14,7 +14,7 @@ export const makeGraves = () => {
     const y = Math.cos(angle) * radius;
     const grave = new THREE.Mesh(graveGeometry, graveMaterial);
     grave.position.set(x, 0.4, y);
-    grave.rotation.y = Math.random() - 0.5 * 0.5;
+    grave.rotation.y = Math.random() - 0.5 * 0.4;
     grave.rotation.z = Math.random() - 0.5 * 0.4;
     graves.add(grave);
   }
