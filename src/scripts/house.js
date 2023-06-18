@@ -70,7 +70,7 @@ export const makeHouse = ({
 
   house.add(walls, roof, door, bush1, bush2, bush3, bush4);
 
-  return {house, walls, door, bush1, bush2, bush3, bush4};
+  return { house, walls, door, bush1, bush2, bush3, bush4 };
 };
 
 function makeDoor(
@@ -113,7 +113,12 @@ function makeWalls(
   wallWidth,
   wallHeight,
   wallDepth,
-  { brickAmbientTexture, brickColorTexture, brickNormalTexture, brickRoughnessTexture }
+  {
+    brickAmbientTexture,
+    brickColorTexture,
+    brickNormalTexture,
+    brickRoughnessTexture,
+  }
 ) {
   const walls = new THREE.Mesh(
     new THREE.BoxGeometry(wallWidth, wallHeight, wallDepth),
@@ -126,9 +131,9 @@ function makeWalls(
   );
 
   walls.geometry.setAttribute(
-    'uv2',
-    new THREE.Float32BufferAttribute(walls.geometry.attributes.uv.array, 2),
-  )
+    "uv2",
+    new THREE.Float32BufferAttribute(walls.geometry.attributes.uv.array, 2)
+  );
 
   return walls;
 }

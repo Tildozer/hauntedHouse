@@ -38,12 +38,12 @@ export const loadTextures = () => {
   grassNormalTexture.repeat.set(8, 8);
   grassAmbientTexture.repeat.set(8, 8);
   grassRoughnessTexture.repeat.set(8, 8);
-  
+
   grassColorTexture.wrapS = THREE.RepeatWrapping;
   grassNormalTexture.wrapS = THREE.RepeatWrapping;
   grassAmbientTexture.wrapS = THREE.RepeatWrapping;
   grassRoughnessTexture.wrapS = THREE.RepeatWrapping;
-  
+
   grassColorTexture.wrapT = THREE.RepeatWrapping;
   grassNormalTexture.wrapT = THREE.RepeatWrapping;
   grassAmbientTexture.wrapT = THREE.RepeatWrapping;

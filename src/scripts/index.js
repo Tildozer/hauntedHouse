@@ -23,7 +23,7 @@ const textures = loadTextures();
 /**
  * House
  */
-const {house, walls, door, bush1, bush2, bush3, bush4} = makeHouse(textures);
+const { house, walls, door, bush1, bush2, bush3, bush4 } = makeHouse(textures);
 
 scene.add(house);
 // Graves
@@ -40,18 +40,17 @@ const {
 } = textures;
 const floor = new THREE.Mesh(
   new THREE.PlaneGeometry(20, 20),
-  new THREE.MeshStandardMaterial({ 
+  new THREE.MeshStandardMaterial({
     map: grassColorTexture,
     aoMap: grassAmbientTexture,
     normalMap: grassNormalTexture,
-    roughnessMap: grassRoughnessTexture
-   })
+    roughnessMap: grassRoughnessTexture,
+  })
 );
 floor.geometry.setAttribute(
-  'uv2',
-  new THREE.Float32BufferAttribute(floor.geometry.attributes.uv.array, 2),
-)
-
+  "uv2",
+  new THREE.Float32BufferAttribute(floor.geometry.attributes.uv.array, 2)
+);
 
 floor.rotation.x = -Math.PI * 0.5;
 floor.position.y = 0;
@@ -85,9 +84,7 @@ const ghost1 = new THREE.PointLight(0xff00ff, 2, 3);
 const ghost2 = new THREE.PointLight(0x00ffff, 2, 3);
 const ghost3 = new THREE.PointLight(0xffff00, 2, 3);
 
-
-
-scene.add(ghost1,ghost2, ghost3);
+scene.add(ghost1, ghost2, ghost3);
 
 /**
  * Sizes
@@ -131,7 +128,7 @@ const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 
 // Debugging
-makeGUI({ ambientLight, moonLight });
+makeGUI({ ambientLight, moonLight, camera, fog });
 
 /**
  * Renderer
@@ -148,7 +145,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  * Shadows
  */
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 moonLight.castShadow = true;
 
@@ -180,8 +177,6 @@ bush4.castShadow = true;
 
 floor.receiveShadow = true;
 
-
-
 /**
  * Animate
  */
@@ -192,20 +187,35 @@ const tick = () => {
 
   // update ghosts
   const ghost1Angle = elapsedTime * 0.5;
-  ghost1.position.x = Math.cos(ghost1Angle) * 4;
-  ghost1.position.z = Math.sin(ghost1Angle) * 4;
-  ghost1.position.y = Math.sin(ghost1Angle * 3);
-  
-  const ghost2Angle = - elapsedTime * 0.35;
-  ghost2.position.x = Math.cos(ghost2Angle) * 6;
-  ghost2.position.z = Math.sin(ghost2Angle) * 6;
-  ghost2.position.y = Math.sin(ghost2Angle * 5) + Math.sin(elapsedTime * 2.5);
+  ghost1.position.set(
+    Math.cos(ghost1Angle) * 4,
+    Math.sin(ghost1Angle * 3),
+    Math.sin(ghost1Angle) * 4
+  );
 
-  const ghost3Angle =  elapsedTime * 0.18; 
-  ghost3.position.x = Math.cos(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.32));
-  ghost3.position.z = Math.sin(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.5));
-  ghost3.position.y = Math.sin(elapsedTime * 4) * Math.sin(elapsedTime * 0.25);
-  
+  const ghost2Angle = -elapsedTime * 0.35;
+  ghost2.position.set(
+    Math.cos(ghost2Angle) * 6,
+    Math.sin(ghost2Angle * 5) + Math.sin(elapsedTime * 2.5),
+    Math.sin(ghost2Angle) * 6
+  );
+
+  const ghost3Angle = elapsedTime * 0.18;
+  ghost3.position.set(
+    Math.cos(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.32)),
+    Math.sin(elapsedTime * 4) * Math.sin(elapsedTime * 0.25),
+    Math.sin(ghost3Angle) * (7 + Math.sin(elapsedTime * 0.5))
+  );
+  // Update camera
+  const cameraAngle = elapsedTime * 0.15;
+  const cameraRadius = 5.4;
+  camera.position.set(
+    Math.sin(cameraAngle) * cameraRadius,
+    1,
+    Math.cos(cameraAngle) * cameraRadius + Math.sin(cameraAngle * 5.5)
+  );
+
+  camera.lookAt(0, 0, 0);
 
   // Update controls
   controls.update();

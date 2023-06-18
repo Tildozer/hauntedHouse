@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import * as dat from "lil-gui";
 
-export const makeGUI = ({ ambientLight, moonLight }) => {
+export const makeGUI = ({ ambientLight, moonLight, camera, fog }) => {
   const gui = new dat.GUI();
 
   gui
@@ -10,6 +10,8 @@ export const makeGUI = ({ ambientLight, moonLight }) => {
     .max(1)
     .step(0.001)
     .name("Ambient light");
+
+  gui.add(fog, "far").min(2).max(15).step(0.01).name("Visibilty range");
 
   const moonLightFolder = gui.addFolder("moonLight");
   moonLightFolder.close();
@@ -33,4 +35,13 @@ export const makeGUI = ({ ambientLight, moonLight }) => {
     .min(-5)
     .max(5)
     .step(0.001);
+
+  const cameraFolder = gui.addFolder("camera");
+  cameraFolder.close();
+  const cameraPositionFolder = cameraFolder.addFolder("positions");
+  cameraPositionFolder.add(camera.position, "x").min(-10).max(10).step(0.01);
+  cameraPositionFolder.add(camera.position, "y").min(-10).max(10).step(0.01);
+  cameraPositionFolder.add(camera.position, "z").min(-10).max(10).step(0.01);
+
+  cameraFolder.hide();
 };
